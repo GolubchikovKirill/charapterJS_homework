@@ -14,15 +14,16 @@ describe('Bowman', () => {
     expect(actual).toEqual(expected);
   });
 
-  test('Корректная работа методов наследования', () => {
+  test('damage корректно уменьшает здоровье с изменённой защитой', () => {
     const bowman = new Bowman('Robin');
-
-    // Проверяем, что методы родителя доступны и корректно работают
     bowman.health = 50;
     bowman.defence = 20;
     bowman.damage(30);
     expect(bowman.health).toBeCloseTo(26);
+  });
 
+  test('levelUp работает корректно с дефолтными полями', () => {
+    const bowman = new Bowman('Robin');
     bowman.levelUp();
     expect(bowman.level).toBe(2);
     expect(bowman.attack).toBeCloseTo(30);
