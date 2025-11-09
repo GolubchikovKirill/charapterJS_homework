@@ -1,24 +1,35 @@
 import Zombie from '../zombie';
 
 describe('Zombie', () => {
-  test('Правильные характеристики', () => {
-    const z = new Zombie('Jerry');
-    expect(z.name).toBe('Jerry');
-    expect(z.type).toBe('Zombie');
-    expect(z.attack).toBe(40);
-    expect(z.defence).toBe(10);
-    expect(z.health).toBe(100);
-    expect(z.level).toBe(1);
+  test('Правильно создаётся объект', () => {
+    const expected = {
+      name: 'Jerry',
+      type: 'Zombie',
+      health: 100,
+      level: 1,
+      attack: 40,
+      defence: 10,
+    };
+    const actual = new Zombie('Jerry');
+    expect(actual).toEqual(expected);
   });
 
-  test('Наследование Character', () => {
+  test('Работа методов (damage, levelUp)', () => {
     const z = new Zombie('Jerry');
-    z.damage(10);
-    expect(z.health).toBeLessThan(100);
+    z.health = 100;
+    z.defence = 10;
+    z.damage(50);
+    expect(z.health).toBeCloseTo(55);
     z.levelUp();
     expect(z.level).toBe(2);
     expect(z.attack).toBeCloseTo(48);
     expect(z.defence).toBeCloseTo(12);
     expect(z.health).toBe(100);
+  });
+
+  test('Zombie наследует методы Character', () => {
+    const z = new Zombie('Jerry');
+    expect(typeof z.levelUp).toBe('function');
+    expect(typeof z.damage).toBe('function');
   });
 });

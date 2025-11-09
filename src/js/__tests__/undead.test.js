@@ -1,24 +1,35 @@
 import Undead from '../undead';
 
 describe('Undead', () => {
-  test('Правильные характеристики', () => {
-    const u = new Undead('Ghouly');
-    expect(u.name).toBe('Ghouly');
-    expect(u.type).toBe('Undead');
-    expect(u.attack).toBe(25);
-    expect(u.defence).toBe(25);
-    expect(u.health).toBe(100);
-    expect(u.level).toBe(1);
+  test('Правильно создаётся объект', () => {
+    const expected = {
+      name: 'Ghouly',
+      type: 'Undead',
+      health: 100,
+      level: 1,
+      attack: 25,
+      defence: 25,
+    };
+    const actual = new Undead('Ghouly');
+    expect(actual).toEqual(expected);
   });
 
-  test('Наследование Character', () => {
+  test('Работа методов (damage, levelUp)', () => {
     const u = new Undead('Ghouly');
-    u.damage(10);
-    expect(u.health).toBeLessThan(100);
+    u.health = 60;
+    u.defence = 25;
+    u.damage(20); // 60 - 20*(1-0.25) = 45
+    expect(u.health).toBeCloseTo(45);
     u.levelUp();
     expect(u.level).toBe(2);
     expect(u.attack).toBeCloseTo(30);
     expect(u.defence).toBeCloseTo(30);
     expect(u.health).toBe(100);
+  });
+
+  test('Undead наследует методы Character', () => {
+    const u = new Undead('Ghouly');
+    expect(typeof u.levelUp).toBe('function');
+    expect(typeof u.damage).toBe('function');
   });
 });
